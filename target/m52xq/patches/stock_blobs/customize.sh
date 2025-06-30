@@ -1,10 +1,4 @@
-ADD_TO_WORK_DIR "a52sxqxx" "product" "." 0 0 755 "u:object_r:system_file:s0"
-ADD_TO_WORK_DIR "a52sxqxx" "system" "." 0 0 755 "u:object_r:system_file:s0"
-
-echo "Fix Google Assistant"
-DELETE_FROM_WORK_DIR "product" "priv-app/HotwordEnrollmentOKGoogleEx4HEXAGON"
-DELETE_FROM_WORK_DIR "product" "priv-app/HotwordEnrollmentXGoogleEx4HEXAGON"
-
+LOG_STEP_IN
 DELETE_FROM_WORK_DIR "system" "system/etc/permissions/com.sec.feature.cover.clearcameraviewcover.xml"
 DELETE_FROM_WORK_DIR "system" "system/etc/permissions/com.sec.feature.cover.flip.xml"
 DELETE_FROM_WORK_DIR "system" "system/etc/permissions/com.sec.feature.nfc_authentication.xml"
@@ -14,34 +8,19 @@ DELETE_FROM_WORK_DIR "system" "system/etc/permissions/com.sec.feature.pocketsens
 DELETE_FROM_WORK_DIR "system" "system/etc/permissions/com.sec.feature.sensorhub_level29.xml"
 DELETE_FROM_WORK_DIR "system" "system/etc/permissions/com.sec.feature.usb_authentication.xml"
 DELETE_FROM_WORK_DIR "system" "system/etc/permissions/com.sec.feature.wirelesscharger_authentication.xml"
-echo "Add stock system features"
+echo "- Add stock system features"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/etc/permissions/com.sec.feature.cover.minisviewwalletcover.xml" 0 0 644 "u:object_r:system_file:s0"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/etc/permissions/com.sec.feature.nsflp_level_600.xml" 0 0 644 "u:object_r:system_file:s0"
 ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/etc/permissions/com.sec.feature.sensorhub_level40.xml" 0 0 644 "u:object_r:system_file:s0"
+LOG_STEP_OUT
 
-DELETE_FROM_WORK_DIR "system" "system/lib64/libhdcp_client_aidl.so"
-DELETE_FROM_WORK_DIR "system" "system/lib64/libhdcp2.so"
-DELETE_FROM_WORK_DIR "system" "system/lib64/libremotedisplay_wfd.so"
-DELETE_FROM_WORK_DIR "system" "system/lib64/libremotedisplayservice.so"
-DELETE_FROM_WORK_DIR "system" "system/lib64/libsecuibc.so"
-DELETE_FROM_WORK_DIR "system" "system/lib64/libstagefright_hdcp.so"
-DELETE_FROM_WORK_DIR "system" "system/lib64/vendor.samsung.hardware.security.hdcp.wifidisplay-V2-ndk.so"
-DELETE_FROM_WORK_DIR "system" "system/lib64/wfd_log.so"
-
-echo "Add HIDL fingerprint biometrics libs"
-ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib/android.hardware.biometrics.fingerprint@2.1.so" 0 0 644 "u:object_r:system_lib_file:s0"
-ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib/vendor.samsung.hardware.biometrics.fingerprint@3.0.so" 0 0 644 "u:object_r:system_lib_file:s0"
-ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/android.hardware.biometrics.fingerprint@2.1.so" 0 0 644 "u:object_r:system_lib_file:s0"
-ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib64/vendor.samsung.hardware.biometrics.fingerprint@3.0.so" 0 0 644 "u:object_r:system_lib_file:s0"
-
-echo "Add HIDL face biometrics libs"
-ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib/android.hardware.biometrics.face@1.0.so" 0 0 644 "u:object_r:system_lib_file:s0"
-ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/lib/vendor.samsung.hardware.biometrics.face@2.0.so" 0 0 644 "u:object_r:system_lib_file:s0"
-
-DELETE_FROM_WORK_DIR "system" "system/lib/android.hardware.security.keymint-V2-ndk.so"
-DELETE_FROM_WORK_DIR "system" "system/lib/android.hardware.security.secureclock-V1-ndk.so"
-DELETE_FROM_WORK_DIR "system" "system/lib/libdk_native_keymint.so"
-DELETE_FROM_WORK_DIR "system" "system/lib/vendor.samsung.hardware.keymint-V2-ndk.so"
-DELETE_FROM_WORK_DIR "system" "system/lib64/android.hardware.security.keymint-V2-ndk.so"
-DELETE_FROM_WORK_DIR "system" "system/lib64/libdk_native_keymint.so"
-DELETE_FROM_WORK_DIR "system" "system/lib64/vendor.samsung.hardware.keymint-V2-ndk.so"
+LOG_STEP_IN 
+DELETE_FROM_WORK_DIR "system" "system/lib64/libnfc_nxpsn_jni.so"
+DELETE_FROM_WORK_DIR "system" "system/priv-app/NfcNci/lib/arm64/libnfc_nxpsn_jni.so"
+echo "- Adding SEC NFC blobs"
+ADD_TO_WORK_DIR "pa1qxx" "system" "system/lib64/libnfc_sec_jni.so" 0 0 644 "u:object_r:system_file:s0"
+ADD_TO_WORK_DIR "pa1qxx" "system" "system/lib64/libnfc-nci_flags.so" 0 0 644 "u:object_r:system_file:s0"
+ADD_TO_WORK_DIR "pa1qxx" "system" "system/lib64/libnfc-sec.so" 0 0 644 "u:object_r:system_file:s0"
+ADD_TO_WORK_DIR "pa1qxx" "system" "system/lib64/libstatslog_nfc.so" 0 0 644 "u:object_r:system_file:s0"
+ADD_TO_WORK_DIR "pa1qxx" "system" "system/priv-app/NfcNci/lib/arm64/libnfc_sec_jni.so" 0 0 644 "u:object_r:system_file:s0"
+LOG_STEP_OUT
