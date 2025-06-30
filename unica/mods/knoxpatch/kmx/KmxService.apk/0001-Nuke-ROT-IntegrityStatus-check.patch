@@ -1,8 +1,10 @@
-From 9ee5510d1946192d3a3ca1ce0ff2d0f69228d584 Mon Sep 17 00:00:00 2001
+From 2b572c160c9a0b184b08c39dc4b0c6bdccb86f8e Mon Sep 17 00:00:00 2001
 From: Salvo Giangreco <giangrecosalvo9@gmail.com>
-Date: Sat, 9 Nov 2024 11:55:20 +0100
-Subject: [PATCH] Nuke ROT/IntegrityStatus check
+Date: Sat, 8 Mar 2025 19:14:49 +0100
+Subject: [PATCH] Nuke-ROT-IntegrityStatus-check
 
+Co-Authored-By: Ocin4ever <85343782+Ocin4ever@users.noreply.github.com>
+Signed-off-by: utkustnr <utkuustuner@proton.me>
 ---
  .../keystore/cert/FabricCertUtil.smali        | 68 +------------------
  1 file changed, 2 insertions(+), 66 deletions(-)
@@ -99,5 +101,5 @@ index 1f02b20e..07d2636f 100644
  
      return p0
 -- 
-2.47.0
+2.49.0
 
