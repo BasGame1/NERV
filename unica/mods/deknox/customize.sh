@@ -1,3 +1,6 @@
+# Galaxy A05s for even more DeKnox
+ADD_TO_WORK_DIR "a05snsdxx" "system" "."
+
 # KnoxGuard
 DELETE_FROM_WORK_DIR "system" "system/priv-app/KnoxGuard"
 DELETE_FROM_WORK_DIR "system" "system/etc/permissions/privapp-permissions-com.samsung.android.kgclient.xml"
