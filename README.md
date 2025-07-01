@@ -9,12 +9,12 @@
   <a href="https://github.com/salvogiangri/UN1CA/actions/workflows/build.yml"><img loading="lazy" src="https://img.shields.io/github/actions/workflow/status/salvogiangri/UN1CA/build.yml?style=for-the-badge"/></a>
   <a href="https://crowdin.com/project/UN1CA"><img loading="lazy" src="https://img.shields.io/badge/Crowdin-263238?style=for-the-badge&logo=crowdin"/></a>
 </p>
-<p align="center">UN1CA <i>(/ˈu.ni.ka/)</i> is a work-in-progress custom firmware for Samsung Galaxy devices.</p>
+<p align="center">UN1CA <i>(/ˈu.ni.ka/)</i> is a work-in-progress custom firmware for Samsung Galaxy devices, and ProjectNERV is a fork of it aimed for personal usage.</p>
 
 <p align="center">
-  <a href="https://github.com/salvogiangri/UN1CA/discussions">🚀 Discussions</a>
+  <a href="https://github.com/salvogiangri/UN1CA/discussions">🚀 UN1CA Discussions</a>
   •
-  <a href="https://t.me/unicarom">💬 Telegram</a>
+  <a href="https://t.me/groupzie">💬 Yagzie's Chat Telegram</a>
 </p>
 
 # What is UN1CA?
@@ -23,33 +23,24 @@ Its build system allows to automatically download/extract the firmware, apply th
 
 Any form of contribution, suggestions, bug report or feature request for the project will be welcome.
 
+# What is ProjectNERV?
+Since UN1CA is away for a while, I and some friends aiming for users to experience Samsung's newest One UI version with less features. This is a small project, and always will be like that.  
+
 # Features
-- Based on the latest stable Galaxy S23 firmware
+- Based on the latest stable Galaxy A73 firmware
 - Galaxy AI support
 - High end animations
-- Native/live blur support
 - AOD clock transition support
-- Adaptive color tone support
-- Adaptive refresh rate support
-- Extra brightness support
 - Picture remaster support
 - Object, shadow and reflection eraser support
 - Image clipper support
 - Smart Suggestions widget
 - Multi user support
-- Samsung DeX support
 - Camera privacy toggle support
 - Debloated from useless system services/additional apps
-- Integrated OTA updates app
-- Play Integrity Fix included
 - [BluetoothLibraryPatcher](https://github.com/3arthur6/BluetoothLibraryPatcher) included
 - [FrameworkPatch](https://github.com/chiteroman/FrameworkPatch) implemented in system frameworks
 - [KnoxPatch](https://github.com/salvogiangri/KnoxPatch) implemented in system frameworks
-- China Device Care app included
-- [Patched GoodLock](https://github.com/corsicanu/goodlock_dump) app included
-- Unlimited backup storage on Google Photos
-- Extra mods (Live blur toggle, FOD animation style, secure screenshot toggle, app downgrade toggle, Dual Messenger on all apps)
-- Extra CSC features (Call recording, Hiya, Network speed in status bar, AltZLife)
 
 # Licensing
 This project is licensed under the terms of the [GNU General Public License v3.0](LICENSE). External dependencies might be distributed under a different license, such as:
