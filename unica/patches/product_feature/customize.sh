@@ -18,7 +18,7 @@ MODEL=$(echo -n "$TARGET_FIRMWARE" | cut -d "/" -f 1)
 REGION=$(echo -n "$TARGET_FIRMWARE" | cut -d "/" -f 2)
 
 if [[ "$SOURCE_PRODUCT_FIRST_API_LEVEL" != "$TARGET_PRODUCT_FIRST_API_LEVEL" ]]; then
-    echo "Applying MAINLINE_API_LEVEL patches"
+    LOG_STEP_IN "- Applying MAINLINE_API_LEVEL patches"
 
     DECODE_APK "system" "system/framework/esecomm.jar"
     DECODE_APK "system" "system/framework/services.jar"
@@ -26,9 +26,8 @@ if [[ "$SOURCE_PRODUCT_FIRST_API_LEVEL" != "$TARGET_PRODUCT_FIRST_API_LEVEL" ]];
     FTP="
     system/framework/esecomm.jar/smali/com/sec/esecomm/EsecommAdapter.smali
     system/framework/services.jar/smali/com/android/server/SystemServer.smali
-    system/framework/services.jar/smali_classes2/com/android/server/enterprise/hdm/HdmVendorController.smali
-    system/framework/services.jar/smali_classes2/com/android/server/knox/dar/ddar/ta/TAProxy.smali
-    system/framework/services.jar/smali_classes3/com/android/server/power/PowerManagerUtil.smali
+    system/framework/services.jar/smali/com/android/server/enterprise/hdm/HdmVendorController.smali
+    system/framework/services.jar/smali_classes2/com/android/server/power/PowerManagerUtil.smali
     "
     for f in $FTP; do
         sed -i \
@@ -36,6 +35,7 @@ if [[ "$SOURCE_PRODUCT_FIRST_API_LEVEL" != "$TARGET_PRODUCT_FIRST_API_LEVEL" ]];
             "$APKTOOL_DIR/$f"
         sed -i "s/\"$SOURCE_PRODUCT_FIRST_API_LEVEL\"/\"$TARGET_PRODUCT_FIRST_API_LEVEL\"/g" "$APKTOOL_DIR/$f"
     done
+    LOG_STEP_OUT
 fi
 
 if $SOURCE_AUDIO_SUPPORT_ACH_RINGTONE; then
@@ -50,26 +50,27 @@ else
     fi
 fi
 
-if $SOURCE_AUDIO_SUPPORT_DUAL_SPEAKER; then
-    if ! $TARGET_AUDIO_SUPPORT_DUAL_SPEAKER; then
-        echo "Applying dual speaker patches"
-        APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/audio/dual_speaker/framework.jar/0001-Disable-dual-speaker-support.patch"
-        APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/audio/dual_speaker/services.jar/0001-Disable-dual-speaker-support.patch"
-    fi
-else
-    if $TARGET_AUDIO_SUPPORT_DUAL_SPEAKER; then
-        # TODO: won't be necessary anyway
-        true
-    fi
-fi
+#if $SOURCE_AUDIO_SUPPORT_DUAL_SPEAKER; then
+#    if ! $TARGET_AUDIO_SUPPORT_DUAL_SPEAKER; then
+#        echo "Applying dual speaker patches"
+#        APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/audio/dual_speaker/framework.jar/0001-Disable-dual-speaker-support.patch"
+#        APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/audio/dual_speaker/services.jar/0001-Disable-dual-speaker-support.patch"
+#    fi
+#else
+#    if $TARGET_AUDIO_SUPPORT_DUAL_SPEAKER; then
+#        # TODO: won't be necessary anyway
+#        true
+#    fi
+#fi
 
 if $SOURCE_AUDIO_SUPPORT_VIRTUAL_VIBRATION; then
     if ! $TARGET_AUDIO_SUPPORT_VIRTUAL_VIBRATION; then
-        echo "Applying virtual vibration patches"
+    LOG_STEP_IN "- Applying virtual vibration patches"
         APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/audio/virtual_vib/framework.jar/0001-Disable-virtual-vibration-support.patch"
         APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/audio/virtual_vib/services.jar/0001-Disable-virtual-vibration-support.patch"
         APPLY_PATCH "system" "system/priv-app/SecSettings/SecSettings.apk" "$SRC_DIR/unica/patches/product_feature/audio/virtual_vib/SecSettings.apk/0001-Disable-virtual-vibration-support.patch"
         APPLY_PATCH "system" "system/priv-app/SettingsProvider/SettingsProvider.apk" "$SRC_DIR/unica/patches/product_feature/audio/virtual_vib/SettingsProvider.apk/0001-Disable-virtual-vibration-support.patch"
+    LOG_STEP_OUT
     fi
 else
     if $TARGET_AUDIO_SUPPORT_VIRTUAL_VIBRATION; then
@@ -79,7 +80,7 @@ else
 fi
 
 if [[ "$SOURCE_AUTO_BRIGHTNESS_TYPE" != "$TARGET_AUTO_BRIGHTNESS_TYPE" ]]; then
-    echo "Applying auto brightness type patches"
+    LOG_STEP_IN "- Applying auto brightness type patches"
 
     DECODE_APK "system" "system/framework/services.jar"
     DECODE_APK "system" "system/framework/ssrm.jar"
@@ -93,10 +94,11 @@ if [[ "$SOURCE_AUTO_BRIGHTNESS_TYPE" != "$TARGET_AUTO_BRIGHTNESS_TYPE" ]]; then
     for f in $FTP; do
         sed -i "s/\"$SOURCE_AUTO_BRIGHTNESS_TYPE\"/\"$TARGET_AUTO_BRIGHTNESS_TYPE\"/g" "$APKTOOL_DIR/$f"
     done
+    LOG_STEP_OUT
 fi
 
 if [[ "$(GET_FP_SENSOR_TYPE "$SOURCE_FP_SENSOR_CONFIG")" != "$(GET_FP_SENSOR_TYPE "$TARGET_FP_SENSOR_CONFIG")" ]]; then
-    echo "Applying fingerprint sensor patches"
+    LOG_STEP_IN "- Applying fingerprint sensor patches"
 
     DECODE_APK "system" "system/framework/framework.jar"
     DECODE_APK "system" "system/framework/services.jar"
@@ -104,16 +106,14 @@ if [[ "$(GET_FP_SENSOR_TYPE "$SOURCE_FP_SENSOR_CONFIG")" != "$(GET_FP_SENSOR_TYP
     DECODE_APK "system_ext" "priv-app/SystemUI/SystemUI.apk"
 
     FTP="
-    system/framework/framework.jar/smali_classes2/android/hardware/fingerprint/FingerprintManager.smali
-    system/framework/framework.jar/smali_classes5/com/samsung/android/bio/fingerprint/SemFingerprintManager.smali
-    system/framework/framework.jar/smali_classes5/com/samsung/android/bio/fingerprint/SemFingerprintManager\$Characteristics.smali
-    system/framework/framework.jar/smali_classes5/com/samsung/android/rune/CoreRune.smali
     system/framework/services.jar/smali/com/android/server/biometrics/sensors/fingerprint/FingerprintUtils.smali
     system/priv-app/SecSettings/SecSettings.apk/smali_classes4/com/samsung/android/settings/biometrics/fingerprint/FingerprintSettingsUtils.smali
     "
     for f in $FTP; do
         sed -i "s/$SOURCE_FP_SENSOR_CONFIG/$TARGET_FP_SENSOR_CONFIG/g" "$APKTOOL_DIR/$f"
     done
+
+    grep -lr "$SOURCE_FP_SENSOR_CONFIG" "$APKTOOL_DIR/system/framework/framework.jar/" | xargs -r -n 1 sed -i "s/$SOURCE_FP_SENSOR_CONFIG/$TARGET_FP_SENSOR_CONFIG/g"
 
     # TODO: handle ultrasonic devices
     if [[ "$(GET_FP_SENSOR_TYPE "$TARGET_FP_SENSOR_CONFIG")" == "optical" ]]; then
@@ -123,29 +123,30 @@ if [[ "$(GET_FP_SENSOR_TYPE "$SOURCE_FP_SENSOR_CONFIG")" != "$(GET_FP_SENSOR_TYP
         APPLY_PATCH "system_ext" "priv-app/SystemUI/SystemUI.apk" "$SRC_DIR/unica/patches/product_feature/fingerprint/SystemUI.apk/0001-Add-optical-FOD-support.patch"
     elif [[ "$(GET_FP_SENSOR_TYPE "$TARGET_FP_SENSOR_CONFIG")" == "side" ]]; then
         ADD_TO_WORK_DIR "b5qxxx" "system" "system/priv-app/BiometricSetting/BiometricSetting.apk" 0 0 644 "u:object_r:system_file:s0"
-        APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/fingerprint/services.jar/0001-Disable-SECURITY_FINGERPRINT_IN_DISPLAY.patch"
-        APPLY_PATCH "system" "system/priv-app/SecSettings/SecSettings.apk" "$SRC_DIR/unica/patches/product_feature/fingerprint/SecSettings.apk/0001-Enable-isSideSensor.patch"
-        APPLY_PATCH "system_ext" "priv-app/SystemUI/SystemUI.apk" "$SRC_DIR/unica/patches/product_feature/fingerprint/SystemUI.apk/0001-Add-side-fingerprint-sensor-support.patch"
+        #APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/fingerprint/services.jar/0001-Disable-SECURITY_FINGERPRINT_IN_DISPLAY.patch"
+        #APPLY_PATCH "system" "system/priv-app/SecSettings/SecSettings.apk" "$SRC_DIR/unica/patches/product_feature/fingerprint/SecSettings.apk/0001-Enable-isSideSensor.patch"
+        #APPLY_PATCH "system_ext" "priv-app/SystemUI/SystemUI.apk" "$SRC_DIR/unica/patches/product_feature/fingerprint/SystemUI.apk/0001-Add-side-fingerprint-sensor-support.patch"
     fi
 
-    if [[ "$TARGET_FP_SENSOR_CONFIG" == *"navi=1"* ]]; then
-        APPLY_PATCH "system" "system/framework/services.jar" \
-            "$SRC_DIR/unica/patches/product_feature/fingerprint/services.jar/0001-Enable-FP_FEATURE_GESTURE_MODE.patch"
-    fi
-    if [[ "$TARGET_FP_SENSOR_CONFIG" == *"no_delay_in_screen_off"* ]]; then
-        APPLY_PATCH "system" "system/priv-app/BiometricSetting/BiometricSetting.apk" \
-            "$SRC_DIR/unica/patches/product_feature/fingerprint/BiometricSetting.apk/0001-Enable-FP_FEATURE_NO_DELAY_IN_SCREEN_OFF.patch"
-    fi
+    #if [[ "$TARGET_FP_SENSOR_CONFIG" == *"navi=1"* ]]; then
+    #    APPLY_PATCH "system" "system/framework/services.jar" \
+    #        "$SRC_DIR/unica/patches/product_feature/fingerprint/services.jar/0001-Enable-FP_FEATURE_GESTURE_MODE.patch"
+    #fi
+    #if [[ "$TARGET_FP_SENSOR_CONFIG" == *"no_delay_in_screen_off"* ]]; then
+    #    APPLY_PATCH "system" "system/priv-app/BiometricSetting/BiometricSetting.apk" \
+    #        "$SRC_DIR/unica/patches/product_feature/fingerprint/BiometricSetting.apk/0001-Enable-FP_FEATURE_NO_DELAY_IN_SCREEN_OFF.patch"
+    #fi
+    LOG_STEP_OUT
 fi
 
-if [[ "$TARGET_API_LEVEL" -lt 34 ]]; then
-    echo "Applying Face HIDL patches"
-    APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/face/services.jar/0001-Fallback-to-Face-HIDL-2.0.patch"
-fi
+#if [[ "$TARGET_API_LEVEL" -lt 34 ]]; then
+#    echo "Applying Face HIDL patches"
+#    APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/face/services.jar/0001-Fallback-to-Face-HIDL-2.0.patch"
+#fi
 
 if [[ "$SOURCE_MDNIE_SUPPORTED_MODES" != "$TARGET_MDNIE_SUPPORTED_MODES" ]] || \
     [[ "$SOURCE_MDNIE_WEAKNESS_SOLUTION_FUNCTION" != "$TARGET_MDNIE_WEAKNESS_SOLUTION_FUNCTION" ]]; then
-    echo "Applying mDNIe features patches"
+    LOG_STEP_IN "- Applying mDNIe features patches"
 
     DECODE_APK "system" "system/framework/services.jar"
 
@@ -156,13 +157,15 @@ if [[ "$SOURCE_MDNIE_SUPPORTED_MODES" != "$TARGET_MDNIE_SUPPORTED_MODES" ]] || \
         sed -i "s/\"$SOURCE_MDNIE_SUPPORTED_MODES\"/\"$TARGET_MDNIE_SUPPORTED_MODES\"/g" "$APKTOOL_DIR/$f"
         sed -i "s/\"$SOURCE_MDNIE_WEAKNESS_SOLUTION_FUNCTION\"/\"$TARGET_MDNIE_WEAKNESS_SOLUTION_FUNCTION\"/g" "$APKTOOL_DIR/$f"
     done
+    LOG_STEP_OUT
 fi
 if $SOURCE_HAS_HW_MDNIE; then
     if ! $TARGET_HAS_HW_MDNIE; then
-        echo "Applying HW mDNIe patches"
+        LOG_STEP_IN "- Applying HW mDNIe patches"
         SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_LCD_SUPPORT_MDNIE_HW" --delete
         APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/mdnie/hw/framework.jar/0001-Disable-HW-mDNIe.patch"
         APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/mdnie/hw/services.jar/0001-Disable-HW-mDNIe.patch"
+        LOG_STEP_OUT
     fi
 else
     if $TARGET_HAS_HW_MDNIE; then
@@ -172,10 +175,11 @@ else
 fi
 if $SOURCE_MDNIE_SUPPORT_HDR_EFFECT; then
     if ! $TARGET_MDNIE_SUPPORT_HDR_EFFECT; then
-        echo "Applying mDNIe HDR effect patches"
+        LOG_STEP_IN "- Applying mDNIe HDR effect patches"
         SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_COMMON_SUPPORT_HDR_EFFECT" --delete
         APPLY_PATCH "system" "system/priv-app/SecSettings/SecSettings.apk" "$SRC_DIR/unica/patches/product_feature/mdnie/hdr/SecSettings.apk/0001-Disable-HDR-Settings.patch"
         APPLY_PATCH "system" "system/priv-app/SettingsProvider/SettingsProvider.apk" "$SRC_DIR/unica/patches/product_feature/mdnie/hdr/SettingsProvider.apk/0001-Disable-HDR-Settings.patch"
+        LOG_STEP_OUT
     fi
 else
     if $TARGET_MDNIE_SUPPORT_HDR_EFFECT; then
@@ -186,13 +190,14 @@ fi
 
 if ! $SOURCE_HAS_QHD_DISPLAY; then
     if $TARGET_HAS_QHD_DISPLAY; then
-        echo "Applying multi resolution patches"
+        LOG_STEP_IN "- Applying multi resolution patches"
         ADD_TO_WORK_DIR "dm3qxxx" "system" "system/bin/bootanimation" 0 2000 755 "u:object_r:bootanim_exec:s0"
         ADD_TO_WORK_DIR "dm3qxxx" "system" "system/bin/surfaceflinger" 0 2000 755 "u:object_r:surfaceflinger_exec:s0"
         ADD_TO_WORK_DIR "dm3qxxx" "system" "system/lib/libgui.so" 0 0 644 "u:object_r:system_lib_file:s0"
         ADD_TO_WORK_DIR "dm3qxxx" "system" "system/lib64/libgui.so" 0 0 644 "u:object_r:system_lib_file:s0"
         APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/resolution/framework.jar/0001-Enable-dynamic-resolution-control.patch"
         APPLY_PATCH "system" "system/priv-app/SecSettings/SecSettings.apk" "$SRC_DIR/unica/patches/product_feature/resolution/SecSettings.apk/0001-Enable-dynamic-resolution-control.patch"
+        LOG_STEP_OUT
     fi
 else
     if ! $TARGET_HAS_QHD_DISPLAY; then
@@ -202,7 +207,7 @@ else
 fi
 
 if [[ "$SOURCE_HFR_MODE" != "$TARGET_HFR_MODE" ]]; then
-    echo "Applying HFR_MODE patches"
+    LOG_STEP_IN "- Applying HFR_MODE patches"
 
     DECODE_APK "system" "system/framework/framework.jar"
     DECODE_APK "system" "system/framework/gamemanager.jar"
@@ -233,9 +238,10 @@ if [[ "$SOURCE_HFR_MODE" != "$TARGET_HFR_MODE" ]]; then
     for f in $FTP; do
         sed -i "s/\"$SOURCE_HFR_MODE\"/\"$TARGET_HFR_MODE\"/g" "$APKTOOL_DIR/$f"
     done
+    LOG_STEP_OUT
 fi
 if [[ "$SOURCE_HFR_SUPPORTED_REFRESH_RATE" != "$TARGET_HFR_SUPPORTED_REFRESH_RATE" ]]; then
-    echo "Applying HFR_SUPPORTED_REFRESH_RATE patches"
+    LOG_STEP_IN "- Applying HFR_SUPPORTED_REFRESH_RATE patches"
 
     DECODE_APK "system" "system/framework/framework.jar"
     DECODE_APK "system" "system/priv-app/SecSettings/SecSettings.apk"
@@ -251,9 +257,10 @@ if [[ "$SOURCE_HFR_SUPPORTED_REFRESH_RATE" != "$TARGET_HFR_SUPPORTED_REFRESH_RAT
             sed -i "s/\"$SOURCE_HFR_SUPPORTED_REFRESH_RATE\"/\"\"/g" "$APKTOOL_DIR/$f"
         fi
     done
+    LOG_STEP_OUT
 fi
 if [[ "$SOURCE_HFR_DEFAULT_REFRESH_RATE" != "$TARGET_HFR_DEFAULT_REFRESH_RATE" ]]; then
-    echo "Applying HFR_DEFAULT_REFRESH_RATE patches"
+    LOG_STEP_IN "- Applying HFR_DEFAULT_REFRESH_RATE patches"
 
     DECODE_APK "system" "system/framework/framework.jar"
     DECODE_APK "system" "system/priv-app/SecSettings/SecSettings.apk"
@@ -267,10 +274,11 @@ if [[ "$SOURCE_HFR_DEFAULT_REFRESH_RATE" != "$TARGET_HFR_DEFAULT_REFRESH_RATE" ]
     for f in $FTP; do
         sed -i "s/\"$SOURCE_HFR_DEFAULT_REFRESH_RATE\"/\"$TARGET_HFR_DEFAULT_REFRESH_RATE\"/g" "$APKTOOL_DIR/$f"
     done
+    LOG_STEP_OUT
 fi
 if [[ "$SOURCE_HFR_SEAMLESS_BRT" != "$TARGET_HFR_SEAMLESS_BRT" ]] || \
     [[ "$SOURCE_HFR_SEAMLESS_LUX" != "$TARGET_HFR_SEAMLESS_LUX" ]]; then
-    echo "Applying HFR_SEAMLESS_BRT/HFR_SEAMLESS_LUX patches"
+    LOG_STEP_IN "- Applying HFR_SEAMLESS_BRT/HFR_SEAMLESS_LUX patches"
 
     if [[ "$TARGET_HFR_SEAMLESS_BRT" == "none" ]] && [[ "$TARGET_HFR_SEAMLESS_LUX" == "none" ]]; then
         APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/hfr/framework.jar/0001-Remove-brightness-threshold-values.patch"
@@ -285,10 +293,11 @@ if [[ "$SOURCE_HFR_SEAMLESS_BRT" != "$TARGET_HFR_SEAMLESS_BRT" ]] || \
             sed -i "s/\"$SOURCE_HFR_SEAMLESS_LUX\"/\"$TARGET_HFR_SEAMLESS_LUX\"/g" "$APKTOOL_DIR/$f"
         done
     fi
+    LOG_STEP_OUT
 fi
 
 if [[ "$SOURCE_MULTI_MIC_MANAGER_VERSION" != "$TARGET_MULTI_MIC_MANAGER_VERSION" ]]; then
-    echo "Applying SemMultiMicManager patches"
+    LOG_STEP_IN "- Applying SemMultiMicManager patches"
 
     DECODE_APK "system" "system/framework/framework.jar"
 
@@ -298,10 +307,11 @@ if [[ "$SOURCE_MULTI_MIC_MANAGER_VERSION" != "$TARGET_MULTI_MIC_MANAGER_VERSION"
     for f in $FTP; do
         sed -i "s/$SOURCE_MULTI_MIC_MANAGER_VERSION/$TARGET_MULTI_MIC_MANAGER_VERSION/g" "$APKTOOL_DIR/$f"
     done
+    LOG_STEP_OUT
 fi
 
 if [[ "$SOURCE_SSRM_CONFIG_NAME" != "$TARGET_SSRM_CONFIG_NAME" ]]; then
-    echo "Applying SSRM patches"
+    LOG_STEP_IN "- Applying SSRM patches"
 
     DECODE_APK "system" "system/framework/ssrm.jar"
 
@@ -311,9 +321,10 @@ if [[ "$SOURCE_SSRM_CONFIG_NAME" != "$TARGET_SSRM_CONFIG_NAME" ]]; then
     for f in $FTP; do
         sed -i "s/$SOURCE_SSRM_CONFIG_NAME/$TARGET_SSRM_CONFIG_NAME/g" "$APKTOOL_DIR/$f"
     done
+    LOG_STEP_OUT
 fi
 if [[ "$SOURCE_DVFS_CONFIG_NAME" != "$TARGET_DVFS_CONFIG_NAME" ]]; then
-    echo "Applying DVFS patches"
+    LOG_STEP_IN "- Applying DVFS patches"
 
     DECODE_APK "system" "system/framework/ssrm.jar"
 
@@ -323,6 +334,7 @@ if [[ "$SOURCE_DVFS_CONFIG_NAME" != "$TARGET_DVFS_CONFIG_NAME" ]]; then
     for f in $FTP; do
         sed -i "s/$SOURCE_DVFS_CONFIG_NAME/$TARGET_DVFS_CONFIG_NAME/g" "$APKTOOL_DIR/$f"
     done
+    LOG_STEP_OUT
 fi
 
 if $SOURCE_IS_ESIM_SUPPORTED; then
@@ -333,6 +345,7 @@ if $SOURCE_IS_ESIM_SUPPORTED; then
 fi
 
 if [ ! -f "$FW_DIR/${MODEL}_${REGION}/vendor/etc/permissions/android.hardware.strongbox_keystore.xml" ]; then
-    echo "Applying strongbox patches"
+    LOG_STEP_IN "- Applying strongbox patches"
     APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/strongbox/framework.jar/0001-Disable-StrongBox-in-DevRootKeyATCmd.patch"
+    LOG_STEP_OUT
 fi
