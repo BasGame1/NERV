@@ -15,15 +15,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-VERSION_MAJOR=2
-VERSION_MINOR=5
-VERSION_PATCH=6
+VERSION_MAJOR=0
+VERSION_MINOR=1
+VERSION_PATCH=2
 
 ROM_VERSION="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}"
 # Append current commit hash to version name
 ROM_VERSION+="-$(git rev-parse --short HEAD)"
 
-# Match latest Samsung's flagship device codename
-# - 1.x.x: Diamond (S23)
-# - 2.x.x: Eureka (S24)
-ROM_CODENAME="Eureka"
+# I dont know what to name.
+ROM_CODENAME="FunProto"
