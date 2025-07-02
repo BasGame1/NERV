@@ -159,34 +159,34 @@ if [[ "$SOURCE_MDNIE_SUPPORTED_MODES" != "$TARGET_MDNIE_SUPPORTED_MODES" ]] || \
     done
     LOG_STEP_OUT
 fi
-if $SOURCE_HAS_HW_MDNIE; then
-    if ! $TARGET_HAS_HW_MDNIE; then
-        LOG_STEP_IN "- Applying HW mDNIe patches"
-        SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_LCD_SUPPORT_MDNIE_HW" --delete
-        APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/mdnie/hw/framework.jar/0001-Disable-HW-mDNIe.patch"
-        APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/mdnie/hw/services.jar/0001-Disable-HW-mDNIe.patch"
-        LOG_STEP_OUT
-    fi
-else
-    if $TARGET_HAS_HW_MDNIE; then
-        # TODO: add HW mDNIe support
-        true
-    fi
-fi
-if $SOURCE_MDNIE_SUPPORT_HDR_EFFECT; then
-    if ! $TARGET_MDNIE_SUPPORT_HDR_EFFECT; then
-        LOG_STEP_IN "- Applying mDNIe HDR effect patches"
-        SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_COMMON_SUPPORT_HDR_EFFECT" --delete
-        APPLY_PATCH "system" "system/priv-app/SecSettings/SecSettings.apk" "$SRC_DIR/unica/patches/product_feature/mdnie/hdr/SecSettings.apk/0001-Disable-HDR-Settings.patch"
-        APPLY_PATCH "system" "system/priv-app/SettingsProvider/SettingsProvider.apk" "$SRC_DIR/unica/patches/product_feature/mdnie/hdr/SettingsProvider.apk/0001-Disable-HDR-Settings.patch"
-        LOG_STEP_OUT
-    fi
-else
-    if $TARGET_MDNIE_SUPPORT_HDR_EFFECT; then
-        # TODO: won't be necessary anyway
-        true
-    fi
-fi
+#if $SOURCE_HAS_HW_MDNIE; then
+#    if ! $TARGET_HAS_HW_MDNIE; then
+#        LOG_STEP_IN "- Applying HW mDNIe patches"
+#        SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_LCD_SUPPORT_MDNIE_HW" --delete
+#        APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/mdnie/hw/framework.jar/0001-Disable-HW-mDNIe.patch"
+#        APPLY_PATCH "system" "system/framework/services.jar" "$SRC_DIR/unica/patches/product_feature/mdnie/hw/services.jar/0001-Disable-HW-mDNIe.patch"
+#        LOG_STEP_OUT
+#    fi
+#else
+#    if $TARGET_HAS_HW_MDNIE; then
+#        # TODO: add HW mDNIe support
+#        true
+#    fi
+#fi
+#if $SOURCE_MDNIE_SUPPORT_HDR_EFFECT; then
+#    if ! $TARGET_MDNIE_SUPPORT_HDR_EFFECT; then
+#        LOG_STEP_IN "- Applying mDNIe HDR effect patches"
+#        SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_COMMON_SUPPORT_HDR_EFFECT" --delete
+#        APPLY_PATCH "system" "system/priv-app/SecSettings/SecSettings.apk" "$SRC_DIR/unica/patches/product_feature/mdnie/hdr/SecSettings.apk/0001-Disable-HDR-Settings.patch"
+#        APPLY_PATCH "system" "system/priv-app/SettingsProvider/SettingsProvider.apk" "$SRC_DIR/unica/patches/product_feature/mdnie/hdr/SettingsProvider.apk/0001-Disable-HDR-Settings.patch"
+#        LOG_STEP_OUT
+#    fi
+#else
+#    if $TARGET_MDNIE_SUPPORT_HDR_EFFECT; then
+#        # TODO: won't be necessary anyway
+#        true
+#    fi
+#fi
 
 if ! $SOURCE_HAS_QHD_DISPLAY; then
     if $TARGET_HAS_QHD_DISPLAY; then
@@ -219,9 +219,9 @@ if [[ "$SOURCE_HFR_MODE" != "$TARGET_HFR_MODE" ]]; then
 
     # TODO: this breaks 60hz AOD
     #if [[ "${#TARGET_HFR_MODE}" -le "6" ]]; then
-    if [[ "$TARGET_HFR_MODE" -le "1" ]]; then
-        APPLY_PATCH "system_ext" "priv-app/SystemUI/SystemUI.apk" "$SRC_DIR/unica/patches/product_feature/hfr/SystemUI.apk/0001-Nuke-KEYGUARD_ADJUST_REFRESH_RATE.patch"
-    fi
+ #   if [[ "$TARGET_HFR_MODE" -le "1" ]]; then
+ #       APPLY_PATCH "system_ext" "priv-app/SystemUI/SystemUI.apk" "$SRC_DIR/unica/patches/product_feature/hfr/SystemUI.apk/0001-Nuke-KEYGUARD_ADJUST_REFRESH_RATE.patch"
+ #   fi
 
     FTP="
     system/framework/framework.jar/smali_classes5/com/samsung/android/hardware/display/RefreshRateConfig.smali
@@ -281,7 +281,7 @@ if [[ "$SOURCE_HFR_SEAMLESS_BRT" != "$TARGET_HFR_SEAMLESS_BRT" ]] || \
     LOG_STEP_IN "- Applying HFR_SEAMLESS_BRT/HFR_SEAMLESS_LUX patches"
 
     if [[ "$TARGET_HFR_SEAMLESS_BRT" == "none" ]] && [[ "$TARGET_HFR_SEAMLESS_LUX" == "none" ]]; then
-        APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/hfr/framework.jar/0001-Remove-brightness-threshold-values.patch"
+        #APPLY_PATCH "system" "system/framework/framework.jar" "$SRC_DIR/unica/patches/product_feature/hfr/framework.jar/0001-Remove-brightness-threshold-values.patch"
     else
         DECODE_APK "system" "system/framework/framework.jar"
 
