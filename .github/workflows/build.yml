@@ -89,4 +89,3 @@ jobs:
 
           echo "Uploaded successfully! Download link:"
           echo "$RESPONSE" | jq -r '.data.downloadPage'
-          echo "WARNING! THESE BUILDS MAY NOT BOOTABLE, ONLY FLASH FOR TESTING PURPOSES ONLY IF THE DEVELOPER TOLD YOU."
