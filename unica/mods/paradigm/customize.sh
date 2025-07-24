@@ -32,11 +32,18 @@ ADD_TO_WORK_DIR "dm1qxx" "system" "system/priv-app/BixbyInterpreter/BixbyInterpr
 ADD_TO_WORK_DIR "dm1qxx" "system" "system/etc/permissions/privapp-permissions-com.samsung.android.app.interpreter.xml" 0 0 644 "u:object_r:system_file:s0"
 # Visual Cloud Core
 ADD_TO_WORK_DIR "dm1qxx" "system" "system/app/VisualCloudCore/VisualCloudCore.apk" 0 0 644 "u:object_r:system_file:s0"
+# SketchBook
+ADD_TO_WORK_DIR "dm1qxx" "system" "system/app/SketchBook/SketchBook.apk" 0 0 644 "u:object_r:system_file:s0"
 # Circle to Search
 ADD_TO_WORK_DIR "dm1qxx" "product" "priv-app/Velvet/Velvet.apk" 0 0 644 "u:object_r:system_file:s0"
-LOG_STEP_OUT
+SET_PROP "product" "ro.com.google.cdb.spa1" "bsxasm1"
+ADD_TO_WORK_DIR "dm1qxx" "product" "etc/sysconfig/google_searcle.xml" 0 0 644 "u:object_r:system_file:s0"
+ADD_TO_WORK_DIR "dm1qxx" "product" "etc/sysconfig/sysconfig_contextual_search.xml" 0 0 644 "u:object_r:system_file:s0"
+# AI Wallpaper Generator
+ADD_TO_WORK_DIR "dm1qxx" "product" "priv-app/AiWallpaper/AiWallpaper.apk" 0 0 644 "u:object_r:system_file:s0"
 
-LOG_STEP_IN "- Use S24 FE Wallpapers"
+# Use S24 FE Wallpapers
+LOG_STEP_IN "- Replace wallpaper-res"
 ADD_TO_WORK_DIR "r12sxxx" "system" \
     "system/priv-app/wallpaper-res/wallpaper-res.apk" 0 0 644 "u:object_r:system_file:s0"
 LOG_STEP_OUT
