@@ -53,7 +53,6 @@ app/DuoStub
 app/Gmail2
 app/Maps
 app/YouTube
-priv-app/Messages
 "
 SYSTEM_DEBLOAT+="
 system/app/AutomationTest_FB
