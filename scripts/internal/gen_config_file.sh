@@ -137,6 +137,11 @@ fi
 #     String containing the target device firmware file system.
 #     Using a value different than stock will require patching the device fstab file in vendor and kernel ramdisk.
 #
+#   TARGET_FS_CHANGED
+#     Indicates that the target device has undergone a filesystem type change.
+#     If set, fstab entries in both vendor and kernel ramdisk must reflect the new filesystem type.
+#     The kernel must also support the selected filesystem.
+#
 #   TARGET_BOOT_DEVICE_PATH
 #     String containing the path to the target device folder containing its block devices.
 #     Defaults to "/dev/block/bootdevice/by-name".
@@ -350,6 +355,7 @@ fi
     GET_BUILD_VAR "TARGET_VENDOR_API_LEVEL"
     GET_BUILD_VAR "TARGET_SINGLE_SYSTEM_IMAGE"
     GET_BUILD_VAR "TARGET_OS_FILE_SYSTEM"
+    GET_BUILD_VAR "TARGET_FS_CHANGED" "false"
     GET_BUILD_VAR "TARGET_BOOT_DEVICE_PATH" "/dev/block/bootdevice/by-name"
     GET_BUILD_VAR "TARGET_DISABLE_AVB_SIGNING" "false"
     GET_BUILD_VAR "TARGET_INCLUDE_PATCHED_VBMETA" "false"
