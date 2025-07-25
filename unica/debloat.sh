@@ -31,7 +31,6 @@ etc/dpolicy
 # Samsung SIM Unlock
 SYSTEM_DEBLOAT+="
 system/bin/ssud
-system/etc/init/ssu_dm1qxxx.rc
 system/etc/init/ssu.rc
 system/etc/permissions/privapp-permissions-com.samsung.ssu.xml
 system/etc/sysconfig/samsungsimunlock.xml
@@ -49,25 +48,26 @@ etc/init/vendor_flash_recovery.rc
 
 # Apps debloat
 PRODUCT_DEBLOAT+="
-app/AssistantShell
 app/Chrome
 app/DuoStub
 app/Gmail2
 app/Maps
 app/YouTube
-overlay/GmsConfigOverlaySearchSelector.apk
 priv-app/Messages
-priv-app/SearchSelector
 "
 SYSTEM_DEBLOAT+="
 system/app/AutomationTest_FB
 system/app/DRParser
+system/app/ClockPackage
 system/app/DictDiotekForSec
+system/app/FunModeSDK
 system/app/FactoryAirCommandManager
 system/app/FactoryCameraFB
 system/app/FBAppManager_NS
 system/app/HMT
+system/app/KidsHome_Installer
 system/app/MoccaMobile
+system/app/MinusOnePage
 system/app/PlayAutoInstallConfig
 system/app/SamsungCalendar
 system/app/SamsungPassAutofill_v1
@@ -75,13 +75,11 @@ system/app/SamsungTTSVoice_de_DE_f00
 system/app/SamsungTTSVoice_en_GB_f00
 system/app/SamsungTTSVoice_en_US_l03
 system/app/SamsungTTSVoice_es_ES_f00
-system/app/SamsungTTSVoice_es_MX_f00
 system/app/SamsungTTSVoice_es_US_f00
 system/app/SamsungTTSVoice_fr_FR_f00
 system/app/SamsungTTSVoice_hi_IN_f00
 system/app/SamsungTTSVoice_it_IT_f00
 system/app/SamsungTTSVoice_pl_PL_f00
-system/app/SamsungTTSVoice_pt_BR_f00
 system/app/SamsungTTSVoice_ru_RU_f00
 system/app/SamsungTTSVoice_th_TH_f00
 system/app/SamsungTTSVoice_vi_VN_f00
@@ -124,7 +122,7 @@ system/priv-app/AuthFramework
 system/priv-app/BCService
 system/priv-app/CIDManager
 system/priv-app/DeviceKeystring
-system/priv-app/DiagMonAgent91
+system/priv-app/DiagMonAgent94
 system/priv-app/DigitalKey
 system/priv-app/FBInstaller_NS
 system/priv-app/FBServices
@@ -133,14 +131,21 @@ system/priv-app/FactoryTestProvider
 system/priv-app/FotaAgent
 system/priv-app/GameHome
 system/priv-app/ModemServiceMode
+system/priv-app/MemorySaver_O_Refresh
 system/priv-app/OneDrive_Samsung_v3
+system/priv-app/OMCAgent5
 system/priv-app/PaymentFramework
 system/priv-app/SEMFactoryApp
-system/priv-app/SOAgent7
+system/priv-app/SetupIndiaServicesTnC
+system/priv-app/SOAgent75
 system/priv-app/SamsungCarKeyFw
 system/priv-app/SamsungPass
+system/priv-app/SamsungMagnifier3
+system/priv-app/SamsungMessages
 system/priv-app/SmartEpdgTestApp
+system/priv-app/UltraDataSaving_O
 system/priv-app/Upday
+system/priv-app/YourPhone_P1_5
 "
 
 # eSIM
