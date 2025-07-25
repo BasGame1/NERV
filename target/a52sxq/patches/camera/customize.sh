@@ -13,6 +13,9 @@ done
     echo "libLttEngine.camera.samsung.so"
 } >> "$WORK_DIR/system/system/etc/public.libraries-camera.samsung.txt"
 
+# Use stock camera feature XML
+ADD_TO_WORK_DIR "$TARGET_FIRMWARE" "system" "system/cameradata/camera-feature.xml
+
 echo "Fix MIDAS model detection"
 sed -i "s/a52sxq/dummy/g" "$WORK_DIR/vendor/etc/midas/midas_config.json"
 sed -i "s/a73xq/a52sxq/g" "$WORK_DIR/vendor/etc/midas/midas_config.json"
