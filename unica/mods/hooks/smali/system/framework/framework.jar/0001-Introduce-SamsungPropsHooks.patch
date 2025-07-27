@@ -1,8 +1,9 @@
-From 8b5448c9e5b1ff9a3e4fc06b4f550888e24a737f Mon Sep 17 00:00:00 2001
+From f0c65405729337b036c6cf8a75f48f94477a2035 Mon Sep 17 00:00:00 2001
 From: Salvo Giangreco <giangrecosalvo9@gmail.com>
 Date: Thu, 5 Jun 2025 00:07:16 +0300
-Subject: [PATCH] Introduce SamsungPropsHooks
+Subject: [PATCH 1/2] Introduce SamsungPropsHooks
 
+Signed-off-by: utkustnr <utkuustuner@proton.me>
 ---
  smali/android/app/Instrumentation.smali       |   4 +
  .../android/os/SystemProperties.smali         |  14 +
@@ -33,7 +34,7 @@ index 0d935feb..3cd0312c 100644
  .end method
  
 diff --git a/smali_classes3/android/os/SystemProperties.smali b/smali_classes3/android/os/SystemProperties.smali
-index 645f7902..43361758 100644
+index 63e0dd64..a735de4d 100644
 --- a/smali_classes3/android/os/SystemProperties.smali
 +++ b/smali_classes3/android/os/SystemProperties.smali
 @@ -383,10 +383,17 @@
@@ -573,5 +574,5 @@ index 00000000..9703a41a
 +    return-void
 +.end method
 -- 
-2.43.0
+2.50.1
 

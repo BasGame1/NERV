@@ -13,8 +13,6 @@ SET_PROP "vendor" "ro.config.notification_sound_2" "ACH_Three_Star.ogg"
 LOG_STEP_OUT
 
 LOG_STEP_IN "- Adding Galaxy AI features"
-# I needed to spoof it so Smart Suggestions and other AI apps can be updated.
-SET_PROP "system" "ro.product.system.model" "SM-S931B"
 SET_FLOATING_FEATURE_CONFIG "SEC_FLOATING_FEATURE_COMMON_DISABLE_NATIVE_AI" --delete
 # Now Brief
 ADD_TO_WORK_DIR "pa1qxx" "system" "system/priv-app/SamsungSmartSuggestions/SamsungSmartSuggestions.apk" 0 0 644 "u:object_r:system_file:s0"
