@@ -1,0 +1,31 @@
+From a8be5a6428ec4f808b907a8f522829f0f340199d Mon Sep 17 00:00:00 2001
+From: ExtremeXT <75576145+ExtremeXT@users.noreply.github.com>
+Date: Tue, 22 Jul 2025 22:50:16 +0300
+Subject: [PATCH] Allow Zipped Overlay APKs
+
+Signed-off-by: ExtremeXT <75576145+ExtremeXT@users.noreply.github.com>
+Signed-off-by: utkustnr <utkuustuner@proton.me>
+---
+ .../com/android/server/pm/InstallPackageHelper.smali        | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/smali_classes2/com/android/server/pm/InstallPackageHelper.smali b/smali_classes2/com/android/server/pm/InstallPackageHelper.smali
+index f8930a0..fc2f13e 100644
+--- a/smali_classes2/com/android/server/pm/InstallPackageHelper.smali
++++ b/smali_classes2/com/android/server/pm/InstallPackageHelper.smali
+@@ -13197,11 +13197,7 @@
+ 
+     move-result v3
+ 
+-    sget v6, Landroid/os/Build$VERSION;->DEVICE_INITIAL_SDK_INT:I
+-
+-    const/16 v12, 0x23
+-
+-    if-lt v6, v12, :cond_c
++    goto :cond_d
+ 
+     if-eqz v0, :cond_c
+ 
+-- 
+2.50.1
+
