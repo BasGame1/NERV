@@ -1,0 +1,4 @@
+id=adbatboot
+name=Adbd enable at boot
+author=BasGame1 & salvogiangri
+description=Enables ADBd at boot
