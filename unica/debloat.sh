@@ -63,7 +63,6 @@ etc/init/vendor_flash_recovery.rc
 PRODUCT_DEBLOAT+="
 app/AssistantShell
 app/BardShell
-app/Chrome
 app/DuoStub
 app/Gmail2
 app/Maps
