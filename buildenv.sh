@@ -103,6 +103,8 @@ run_cmd()
 }
 
 alias unica=run_cmd
+alias nerv=run_cmd
+alias build=run_cmd make_rom
 # ]
 
 SRC_DIR="$(_GET_SRC_DIR)"
